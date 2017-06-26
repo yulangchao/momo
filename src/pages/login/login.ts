@@ -1,6 +1,11 @@
 import { Component, OnDestroy } from '@angular/core';
 import { AuthService } from "angular2-social-login";
+import { NavController, ToastController } from 'ionic-angular';
 
+import { MainPage } from '../../pages/pages';
+import { User } from '../../providers/user';
+
+import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'page-login',
   template: `<h1>Angular2 Social login</h1>{{status}}
@@ -37,12 +42,13 @@ import { AuthService } from "angular2-social-login";
 export class LoginPage implements OnDestroy {
   public user;
   sub: any;
-  constructor(public _auth: AuthService){ }
+  constructor(public _auth: AuthService, public toastCtrl: ToastController,
+    public translateService: TranslateService){ }
 
   signIn(provider){
     this.sub = this._auth.login(provider).subscribe(
       (data) => {
-        console.log(data);this.user=data;}
+        console.log(data);this.user=data;this.navCtrl.push(MainPage);}
     )
   }
 
